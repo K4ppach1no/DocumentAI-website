@@ -1,0 +1,50 @@
+// API Key: 
+
+import axios from 'axios';
+
+class OpenWebUIApi {
+  constructor(apiKey, baseUrl = 'http://localhost:8080/api') {
+    this.apiKey = apiKey;
+    this.baseUrl = baseUrl;
+  }
+
+  // Method to retrieve all available models
+  async getModels() {
+    try {
+      const response = await axios.get(`${this.baseUrl}/models`, {
+        headers: {
+          Authorization: `Bearer ${this.apiKey}`,
+        },
+      });
+      return response.data;  // Return the models data
+    } catch (error) {
+      console.error("Error fetching models:", error);
+      throw error;
+    }
+  }
+
+  // Method to get chat completions (compatible with OpenAI-style chat completion endpoint)
+  async getChatCompletion(model, messages) {
+    try {
+      const response = await axios.post(
+        `${this.baseUrl}/chat/completions`,
+        {
+          model,
+          messages
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${this.apiKey}`,
+            'Content-Type': 'application/json'
+          },
+        }
+      );
+      return response.data;  // Return the chat completion response
+    } catch (error) {
+      console.error("Error fetching chat completion:", error);
+      throw error;
+    }
+  }
+}
+
+export default OpenWebUIApi;
