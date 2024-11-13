@@ -1,38 +1,43 @@
 /* src/App.css */
 
 .ChatApp {
+  display: flex;
+  flex-direction: column;
+  height: 100vh; /* Full viewport height */
   text-align: center;
   font-family: Arial, sans-serif;
 }
 
 .App-header {
   background-color: #282c34;
-  padding: 20px;
+  padding: 0px;
   color: white;
+  text-align: left; /* Align text to the left */
+  top: 0;
+  padding-left: 20px;
 }
 
 .message-container {
-  width: 80%;
-  height: 400px;
+  flex: 1; /* Take up all available space */
+  width: 98%;
   overflow-y: auto;
   border: 1px solid #ccc;
   padding: 10px;
-  margin: 20px auto;
+  margin: 0 auto 20px auto; /* Match the bottom margin with input-container */
   background-color: #f9f9f9;
 }
-
-.message {
-  margin: 10px 0;
-  text-align: left;
-}
-
-.input-container {
-  display: flex;
-  width: 80%;
-  margin: 0 auto;
+body {
+  background-color: #121212;
+  color: #e0e0e0;
 }
 
 input[type="text"] {
+  background-color: #333;
+  color: #e0e0e0;
+  border: 1px solid #555;
+  height: auto;
+  overflow: hidden;
+  resize: none;
   flex: 1;
   padding: 10px;
   font-size: 1em;
@@ -40,16 +45,126 @@ input[type="text"] {
   border: 1px solid #ccc;
 }
 
-button {
-  padding: 10px 20px;
-  margin-left: 10px;
-  border: none;
-  background-color: #61dafb;
-  color: #282c34;
+textarea {
+  background-color: #333;
+  color: #e0e0e0;
+  border: 1px solid #555;
+  height: auto;
+  overflow: hidden;
+  resize: none;
+  flex: 9; /* Take 90% of the width */
+  padding: 10px;
+  font-size: 1em;
   border-radius: 5px;
-  cursor: pointer;
+  border: 1px solid #ccc;
+  width: calc(100% - 120px); /* Adjust width to leave space for the button */
+  box-sizing: border-box;
+  margin-right: 10px; /* Add margin to separate from the button */
 }
 
-button:hover {
-  background-color: #21a1f1;
+.message-container {
+  background-color: #1e1e1e;
+  border: 1px solid #333;
+  border-radius: 5px;
 }
+
+.message {
+  background-color: #2c2c2c;
+  padding: 10px;
+  border-radius: 5px;
+}
+
+.message {
+  margin: 10px 0;
+  text-align: left;
+}
+
+.option-container {
+  background-color: #1e1e1e;
+  border: 1px solid #333;
+  padding: 1px;
+  border-radius: 5px;
+  width: 99%;
+  margin: 10px auto;
+  box-sizing: border-box;
+  display: flex;
+  justify-content: space-between; /* Ensure equal spacing between items */
+  align-items: center; /* Align items in the center */
+}
+
+.option-container-item {
+  flex: 1; /* Take up equal space */
+  text-align: center;
+  cursor: pointer;
+  padding: 10px;
+  border-radius: 5px;
+  margin: 5px;
+  background-color: #2c2c2c;
+  color: #e0e0e0;
+  transition: background-color 0.3s;
+}
+
+.option-container-item:hover {
+  background-color: #3c3c3c;
+}
+
+.ChatInputContainer {
+  display: flex;
+  align-items: center; /* Center-align items vertically */
+  background-color: #1e1e1e;
+  border: 1px solid #333;
+  padding: 5px; /* Adjust padding for better alignment */
+  border-radius: 5px;
+  margin: 0 auto 20px auto;
+  width: 98%;
+  box-sizing: border-box;
+}
+
+.ChatInput {
+  flex: 1;
+  background-color: #333;
+  color: #e0e0e0;
+  border: 1px solid #555;
+  padding: 10px;
+  font-size: 1em;
+  border-radius: 5px;
+  box-sizing: border-box;
+  margin-right: 10px;
+}
+
+.SendButton {
+  background-color: #61dafb;
+  color: #282c34;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 1em;
+  padding: 10px 20px; /* Ensure padding for a balanced look */
+  box-sizing: border-box;
+  height: auto; /* Set height to auto for alignment with text input */
+  transition: background-color 0.3s, color 0.3s;
+}
+
+.SendButton:hover {
+  background-color: #282c34;
+  color: #61dafb;
+}
+
+
+ul {
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+}
+
+li {
+  padding: 10px;
+  margin: 5px 0;
+  background-color: #2c2c2c;
+  border-radius: 5px;
+}
+
+li:hover {
+  background-color: #3c3c3c;
+}
+

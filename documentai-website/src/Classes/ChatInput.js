@@ -1,33 +1,50 @@
+// src/ChatInput.js
 import React, { Component } from 'react';
 
 class ChatInput extends Component {
   constructor(props) {
     super(props);
-    this.state = { messageText: '' };
+    this.state = { message: '' };
   }
 
   handleChange = (event) => {
-    this.setState({ messageText: event.target.value });
+    this.setState({ message: event.target.value });
   };
 
-  handleSend = () => {
-    const { messageText } = this.state;
-    if (messageText.trim()) {
-      this.props.onSendMessage(messageText);
-      this.setState({ messageText: '' });
+  handleKeyDown = (event) => {
+    if (event.key === 'Enter') {
+      if (event.shiftKey) {
+        // Shift + Enter: add a new line
+        this.setState((prevState) => ({ message: prevState.message }));
+      } else {
+        // Enter: send the message
+        event.preventDefault();
+        this.handleSendMessage();
+      }
+    }
+  };
+
+  handleSendMessage = () => {
+    const { message } = this.state;
+    if (message.trim()) {
+      this.props.onSendMessage(message);
+      this.setState({ message: '' });
     }
   };
 
   render() {
     return (
-      <div className="input-container">
-        <input
-          type="text"
-          value={this.state.messageText}
-          onChange={this.handleChange}
-          placeholder="Type a message..."
+      <div className="ChatInputContainer">
+      <div className="ChatInput">
+        <textarea
+        value={this.state.message}
+        onChange={this.handleChange}
+        onKeyDown={this.handleKeyDown}
+        placeholder="Type a message..."
+        rows="3"
         />
-        <button onClick={this.handleSend}>Send</button>
+        <button onClick={this.handleSendMessage} className='SendButton'>Send</button>
+      </div>
       </div>
     );
   }

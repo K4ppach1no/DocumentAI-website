@@ -45,6 +45,20 @@ class OpenWebUIApi {
       throw error;
     }
   }
+
+  async uploadFile(file) {
+    const formData = new FormData();
+    formData.append('file', file);
+
+    const response = await axios.post(`${this.baseUrl}/v1/files/`, formData, {
+      headers: {
+        Authorization: `Bearer ${this.apiKey}`,
+        'Accept': 'application/json',
+      },
+    });
+
+    return response.data;
+  }
 }
 
 export default OpenWebUIApi;
