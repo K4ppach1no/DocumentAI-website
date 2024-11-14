@@ -1,17 +1,15 @@
-import React, { Component } from 'react';
+import React from 'react';
 
-class MessageList extends Component {
-  render() {
-    return (
-      <div className="message-container">
-        {this.props.messages.map((msg, index) => (
-          <div key={index} className="message">
-            <p><strong>{msg.sender}:</strong> {msg.text}</p>
-          </div>
-        ))}
-      </div>
-    );
-  }
+function MessageList({ messages }) {
+  return (
+    <div className="MessageList">
+      {messages.map((message, index) => (
+        <div key={index} className={`message ${message.role}`}>
+          <span className="role">{message.role}:</span> {message.content}
+        </div>
+      ))}
+    </div>
+  );
 }
 
 export default MessageList;
