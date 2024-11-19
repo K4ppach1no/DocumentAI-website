@@ -23,7 +23,7 @@ class OpenWebUIApi {
     }
   }
 
-  // Method to get chat completions (compatible with OpenAI-style chat completion endpoint)
+  // Method to get chat completions
   async getChatCompletion(model, messages) {
     try {
       const response = await axios.post(

@@ -14,7 +14,7 @@ class ChatApp extends Component {
     };
 
     // Instantiate the API client with your Open-webUI API key
-    this.apiClient = new OpenWebUIApi('eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjRmZTM4ZmQwLTJlYTktNGUxMi05ZGZmLTljMTRlNjEzMTM0NCJ9.H5UPF1HUW-sjcZ_XHs0nX2br4tAt_7oQYyDaHtYf99Y');
+    this.apiClient = new OpenWebUIApi('eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjI0YTBhZjIyLTIwOGMtNGNkMC1iNzkyLWEyZjRhYzg4MzhkOCJ9.NTW3wveB3kuSdSEntaXo7cRprG5E8SMkH7kDJk4WIqw');
   }
 
   async componentDidMount() {
@@ -66,7 +66,7 @@ class ChatApp extends Component {
         const response = await this.apiClient.uploadFile(file);
         console.log("File uploaded successfully:", response);
         this.setState((prevState) => ({
-          messages: [...prevState.messages, { sender: 'System', text: 'File uploaded successfully.' }],
+          messages: [...prevState.messages, { sender: 'System', text: 'File uploaded successfully. Response: ' + JSON.stringify(response) }],
         }));
       } catch (error) {
         console.error("Error uploading file:", error);
