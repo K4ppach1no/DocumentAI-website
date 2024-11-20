@@ -138,7 +138,7 @@ class ChatApp extends Component {
     }));
 
     try {
-      const messageHistory = messages.map(msg => ({ role: msg.sender.toLowerCase() === 'system' ? 'assistant' : msg.sender.toLowerCase(), content: msg.text }));
+      const messageHistory = messages.map(msg => ({ role: msg.sender.toLowerCase() === 'user' ? 'user' : 'assistant', content: msg.text }));
       messageHistory.push({ role: 'user', content: userMessage.text });
 
       let response;
