@@ -4,6 +4,12 @@ import OpenWebUIApi from './OpenWebUI';
 import ChatInput from './ChatInput';
 import MessageList from './MessageList';
 import { Link } from 'react-router-dom'; // Import Link from react-router-dom
+import dotenv from 'dotenv';
+
+// Load environment variables from .env file
+dotenv.config();
+
+const apiKey = process.env.API_KEY;
 
 class ChatApp extends Component {
   constructor(props) {
@@ -19,7 +25,7 @@ class ChatApp extends Component {
     };
 
     // Instantiate the API client with your Open-webUI API key
-    this.apiClient = new OpenWebUIApi("eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjFkMDgyYzBiLTNmNWEtNDM0OS1hZDk2LTI1YjU2YzViMzY4ZCJ9.ZWwIyGYl-kx-LEE2F-3M59_LAuZ0YZAhqjDKFb18JMM");
+    this.apiClient = new OpenWebUIApi(apiKey);
   }
 
   async componentDidMount() {
