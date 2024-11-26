@@ -75,6 +75,35 @@ class OpenWebUI {
     }
   }
 
+  // Method to get a chat completion with a collection
+  async getChatCompletionWithCollection(model, messages, collectionId) {
+    try {
+      const response = await axios.post(
+        `${this.baseUrl}/chat/completions`,
+        {
+          model,
+          messages,
+          files: [
+            {
+              type: 'collection',
+              id: collectionId
+            }
+          ]
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${this.apiKey}`,
+            'Content-Type': 'application/json'
+          },
+        }
+      );
+      return response.data;  // Return the chat completion response
+    } catch (error) {
+      console.error("Error fetching chat completion:", error);
+      throw error;
+    }
+  }
+
   async uploadFile(file) {
     const formData = new FormData();
     formData.append('file', file);
@@ -131,7 +160,7 @@ class OpenWebUI {
   // Method to list existing collections (knowledge bases)
   async getCollections() {
     try {
-      const response = await axios.get(`${this.baseUrl}/knowledge/`, {
+      const response = await axios.get(`${this.baseUrl}/v1/knowledge/`, {
         headers: {
           Authorization: `Bearer ${this.apiKey}`,
         },
@@ -146,7 +175,7 @@ class OpenWebUI {
   // Method to fetch collection details
   async getCollectionDetails(collectionId) {
     try {
-      const response = await axios.get(`${this.baseUrl}/knowledge/${collectionId}`, {
+      const response = await axios.get(`${this.baseUrl}/v1/knowledge/${collectionId}`, {
         headers: {
           Authorization: `Bearer ${this.apiKey}`,
         },

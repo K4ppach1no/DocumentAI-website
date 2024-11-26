@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import OpenWebUI from './OpenWebUI';
+import OpenWebUIApi from './OpenWebUI';
 
 class ManageCollections extends Component {
   constructor(props) {
@@ -10,7 +10,7 @@ class ManageCollections extends Component {
       newCollectionDescription: '',
     };
 
-    this.apiClient = new OpenWebUI("your-api-key-here");
+    this.apiClient = new OpenWebUIApi("eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjI0YTBhZjIyLTIwOGMtNGNkMC1iNzkyLWEyZjRhYzg4MzhkOCJ9.NTW3wveB3kuSdSEntaXo7cRprG5E8SMkH7kDJk4WIqw");
   }
 
   async componentDidMount() {

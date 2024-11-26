@@ -64,74 +64,22 @@ class ChatApp extends Component {
     this.messagesEnd.scrollIntoView({ behavior: 'smooth' });
   };
 
-  // Method to fetch collection details
-  handleFetchCollectionDetails = async (collectionId) => {
-    try {
-      const collectionDetails = await this.apiClient.getCollectionDetails(collectionId);
-      console.log("Collection details:", collectionDetails);
-      this.setState((prevState) => ({
-        messages: [...prevState.messages, { sender: 'System', text: 'Collection details: ' + JSON.stringify(collectionDetails) }],
-      }));
-    } catch (error) {
-      console.error("Error fetching collection details:", error);
-      this.setState((prevState) => ({
-        messages: [...prevState.messages, { sender: 'System', text: 'Error fetching collection details.' }],
-      }));
-    }
-  };
-
   handleModelChange = (event) => {
     this.setState({ selectedModel: event.target.value });
   };
 
   handleFileChange = (event) => {
     this.setState({ selectedFile: event.target.value });
+    this.setState({ selectedCollection: '' });
   };
 
   handleCollectionChange = (event) => {
     this.setState({ selectedCollection: event.target.value });
-  };
-
-  handleCreateCollection = async (collectionName) => {
-    try {
-      const response = await this.apiClient.createCollection(collectionName);
-      console.log("Collection created successfully:", response);
-      this.setState((prevState) => ({
-        collections: [...prevState.collections, { id: response.id, name: response.name }],
-        messages: [...prevState.messages, { sender: 'System', text: 'Collection created successfully. Response: ' + JSON.stringify(response) }],
-      }));
-    } catch (error) {
-      console.error("Error creating collection:", error);
-      this.setState((prevState) => ({
-        messages: [...prevState.messages, { sender: 'System', text: 'Error creating collection.' }],
-      }));
-    }
-  };
-
-  handleAddFileToCollection = async (fileId) => {
-    const { selectedCollection } = this.state;
-    if (selectedCollection) {
-      try {
-        const response = await this.apiClient.addFileToCollection(selectedCollection, fileId);
-        console.log("File added to collection successfully:", response);
-        this.setState((prevState) => ({
-          messages: [...prevState.messages, { sender: 'assistant', text: 'File added to collection successfully. Response: ' + JSON.stringify(response) }],
-        }));
-      } catch (error) {
-        console.error("Error adding file to collection:", error);
-        this.setState((prevState) => ({
-          messages: [...prevState.messages, { sender: 'assistant', text: 'Error adding file to collection.' }],
-        }));
-      }
-    } else {
-      this.setState((prevState) => ({
-        messages: [...prevState.messages, { sender: 'assistant', text: 'No collection selected.' }],
-      }));
-    }
+    this.setState({ selectedFile: '' });
   };
 
   handleSendMessage = async (messageText) => {
-    const { selectedModel, selectedFile, messages } = this.state;
+    const { selectedModel, selectedFile, selectedCollection, messages } = this.state;
     const userMessage = { sender: 'User', text: messageText };
     this.setState((prevState) => ({
       messages: [...prevState.messages, userMessage],
@@ -144,6 +92,8 @@ class ChatApp extends Component {
       let response;
       if (selectedFile) {
         response = await this.apiClient.getChatCompletionWithFile(selectedModel, messageHistory, selectedFile);
+      } else if (selectedCollection) {
+        response = await this.apiClient.getChatCompletionWithCollection(selectedModel, messageHistory, selectedCollection);
       } else {
         response = await this.apiClient.getChatCompletion(selectedModel, messageHistory);
       }
