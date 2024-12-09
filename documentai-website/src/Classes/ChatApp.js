@@ -91,8 +91,10 @@ class ChatApp extends Component {
 
       let response;
       if (selectedFile) {
+        console.log("selectedFile:", selectedFile);
         response = await this.apiClient.getChatCompletionWithFile(selectedModel, messageHistory, selectedFile);
       } else if (selectedCollection) {
+        console.log("selectedCollection:", selectedCollection);
         response = await this.apiClient.getChatCompletionWithCollection(selectedModel, messageHistory, selectedCollection);
       } else {
         response = await this.apiClient.getChatCompletion(selectedModel, messageHistory);
