@@ -83,10 +83,10 @@ class OpenWebUI {
         {
           model,
           messages,
-          files: [
+          'files': [
             {
-              type: 'collection',
-              id: collectionId
+              'type': 'collection',
+              'id': collectionId
             }
           ]
         },
