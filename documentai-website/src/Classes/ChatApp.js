@@ -31,7 +31,8 @@ class ChatApp extends Component {
         id: model.id,
         name: model.name,
       }));
-      this.setState({ models, selectedModel: models[0]?.id || '' });
+      const defaultModel = models.find(model => model.name === 'IoT')?.id || models[0]?.id || '';
+      this.setState({ models, selectedModel: defaultModel });
 
       // Fetch the existing files when the component mounts
       const filesData = await this.apiClient.getFiles();
@@ -49,7 +50,8 @@ class ChatApp extends Component {
         name: collection.name,
       })) : [];
       collections.unshift({ id: '', name: 'No collection selected' });
-      this.setState({ collections, selectedCollection: collections[0]?.id || '' });
+      const defaultCollection = collections.find(collection => collection.name === 'IoT')?.id || collections[0]?.id || '';
+      this.setState({ collections, selectedCollection: defaultCollection });
     } catch (error) {
       console.error("Error fetching data:", error);
     }
