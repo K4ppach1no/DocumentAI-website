@@ -187,6 +187,82 @@ class OpenWebUI {
     }
   }
 
+  // Method to get a user's chats
+  async getUserChats() {
+    try {
+      const response = await axios.get(`${this.baseUrl}/v1/chats/list`, {
+        headers: {
+          Authorization: `Bearer ${this.apiKey}`,
+          'Accept': 'application/json'
+        },
+      });
+      return response.data;  // Return the user's chats data
+    } catch (error) {
+      console.error("Error fetching user's chats:", error);
+      throw error;
+    }
+  }
+
+  // Method to get the content of a specific chat
+  async getChatContent(chatId) {
+    try {
+      const response = await axios.get(`${this.baseUrl}/v1/chats/${chatId}`, {
+        headers: {
+          Authorization: `Bearer ${this.apiKey}`,
+          'Accept': 'application/json'
+        },
+      });
+      return response.data;  // Return the chat content data
+    } catch (error) {
+      console.error("Error fetching chat content:", error);
+      throw error;
+    }
+  }
+
+  // Method to create a new chat
+  async createChat(title) {
+    try {
+      const response = await axios.post(
+        `${this.baseUrl}/v1/chats/new`,
+        { title },
+        {
+          headers: {
+            Authorization: `Bearer ${this.apiKey}`,
+            'Content-Type': 'application/json'
+          },
+        }
+      );
+      return response.data;  // Return the created chat data
+    } catch (error) {
+      if (error.response && error.response.status === 422) {
+        console.error("Validation Error:", error.response.data.detail);
+      } else {
+        console.error("Error creating chat:", error);
+      }
+      throw error;
+    }
+  }
+
+  // Method to send a message to a specific chat
+  async sendMessageToChat(chatId, message) {
+    try {
+      const response = await axios.post(
+        `${this.baseUrl}/v1/chats/${chatId}`,
+        { message },
+        {
+          headers: {
+            Authorization: `Bearer ${this.apiKey}`,
+            'Content-Type': 'application/json'
+          },
+        }
+      );
+      return response.data;  // Return the response data
+    } catch (error) {
+      console.error("Error sending message to chat:", error);
+      throw error;
+    }
+  }
+
 }
 
 export default OpenWebUI;

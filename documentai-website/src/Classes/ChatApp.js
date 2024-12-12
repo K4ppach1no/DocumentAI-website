@@ -2,8 +2,9 @@
 import React, { Component } from 'react';
 import OpenWebUIApi from './OpenWebUI';
 import ChatInput from './ChatInput';
-import MessageList from './MessageList';
+import MessageList from '../Components/MessageList';
 import { Link } from 'react-router-dom'; // Import Link from react-router-dom
+import LogChat from './LogChat'; // Import LogChat
 
 class ChatApp extends Component {
   constructor(props) {
@@ -91,19 +92,27 @@ class ChatApp extends Component {
 
       let response;
       if (selectedFile) {
-        console.log("selectedFile:", selectedFile);
         response = await this.apiClient.getChatCompletionWithFile(selectedModel, messageHistory, selectedFile);
       } else if (selectedCollection) {
-        console.log("selectedCollection:", selectedCollection);
         response = await this.apiClient.getChatCompletionWithCollection(selectedModel, messageHistory, selectedCollection);
       } else {
         response = await this.apiClient.getChatCompletion(selectedModel, messageHistory);
       }
 
-      const botMessage = { sender: selectedModel, text: response.choices[0].message.content };
+      const botMessage = {
+        sender: selectedModel,
+        text: response.choices[0].message.content,
+        references: response.choices[0].message.sources ? response.choices[0].message.sources.map(source => ({
+          name: source.source.name,
+          content: source.document.join('\n'),
+          metadata: source.metadata
+        })) : []
+      };
       this.setState((prevState) => ({
         messages: [...prevState.messages, botMessage],
-      }));
+      }), () => {
+        LogChat.logMessageHistory(this.state.messages); // Log the chat history
+      });
     } catch (error) {
       console.error("Error fetching response:", error);
       this.setState((prevState) => ({
@@ -117,7 +126,6 @@ class ChatApp extends Component {
     if (file) {
       try {
         const response = await this.apiClient.uploadFile(file);
-        console.log("File uploaded successfully:", response);
         this.setState((prevState) => ({
           messages: [...prevState.messages, { sender: 'System', text: 'File uploaded successfully. Response: ' + JSON.stringify(response) }],
         }));
@@ -139,6 +147,7 @@ class ChatApp extends Component {
           <div className="navbar">
             <h1>Document AI</h1>
             <Link to="/manage-collections">Manage Collections</Link>
+            <Link to="/manage-chats">Manage Chats</Link>
           </div>
         </header>
         <div className='option-container'>
@@ -196,6 +205,7 @@ class ChatApp extends Component {
           <MessageList messages={messages} />
           <div ref={(el) => { this.messagesEnd = el; }} />
         <ChatInput onSendMessage={this.handleSendMessage} />
+        <div ref={(el) => { this.messagesEnd = el; }} />
       </div>
     );
   }

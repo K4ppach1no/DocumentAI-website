@@ -319,3 +319,38 @@ li:hover {
   background-color: #555;
 }
 
+.popup {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: #1e1e1e;
+  border: 1px solid #333;
+  border-radius: 5px;
+  padding: 20px;
+  z-index: 1000;
+  max-width: 80%;
+  max-height: 80%;
+  overflow-y: auto;
+}
+
+.popup-content {
+  position: relative;
+}
+
+.popup .close {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background-color: #444;
+  color: #e0e0e0;
+  border: none;
+  border-radius: 5px;
+  padding: 5px 10px;
+  cursor: pointer;
+}
+
+.popup .close:hover {
+  background-color: #555;
+}
+
