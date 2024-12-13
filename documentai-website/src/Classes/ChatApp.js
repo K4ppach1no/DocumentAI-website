@@ -17,6 +17,7 @@ class ChatApp extends Component {
       selectedFile: '',
       collections: [],
       selectedCollection: '',
+      dropdownOpen: false, // Add state for dropdown menu
     };
 
     // Instantiate the API client with your Open-webUI API key
@@ -140,16 +141,30 @@ class ChatApp extends Component {
     }
   };
 
+  toggleDropdown = () => {
+    this.setState(prevState => ({
+      dropdownOpen: !prevState.dropdownOpen
+    }));
+  };
+
   render() {
-    const { models, selectedModel, messages, files, selectedFile, collections, selectedCollection } = this.state;
+    const { models, selectedModel, messages, files, selectedFile, collections, selectedCollection, dropdownOpen } = this.state;
+    const isDataLoaded = models.length > 0; // Check if models are loaded
 
     return (
       <div className="ChatApp">
         <header className="App-header">
           <div className="navbar">
             <h1>Document AI</h1>
-            <Link to="/manage-collections">Manage Collections</Link>
-            <Link to="/manage-chats">Manage Chats</Link>
+            <div className="dropdown">
+              <button className="dropbtn" onClick={this.toggleDropdown}>Manage</button>
+              {dropdownOpen && (
+                <div className="dropdown-content">
+                  <Link to="/manage-collections">Manage Collections</Link>
+                  <Link to="/manage-chats">Manage Chats</Link>
+                </div>
+              )}
+            </div>
           </div>
         </header>
         <div className='option-container'>
@@ -159,6 +174,7 @@ class ChatApp extends Component {
               id="modelSelect"
               value={selectedModel}
               onChange={this.handleModelChange}
+              disabled={!isDataLoaded} // Disable if data is not loaded
             >
               {models.map((model) => (
                 <option key={model.id} value={model.id}>
@@ -173,6 +189,7 @@ class ChatApp extends Component {
               id="fileSelect"
               value={selectedFile}
               onChange={this.handleFileChange}
+              disabled={!isDataLoaded} // Disable if data is not loaded
             >
               {files.map((file) => (
                 <option key={file.id} value={file.id}>
@@ -187,6 +204,7 @@ class ChatApp extends Component {
               id="collectionSelect"
               value={selectedCollection}
               onChange={this.handleCollectionChange}
+              disabled={!isDataLoaded} // Disable if data is not loaded
             >
               {collections.map((collection) => (
                 <option key={collection.id} value={collection.id}>
@@ -201,12 +219,13 @@ class ChatApp extends Component {
               type="file"
               id="fileUpload"
               onChange={this.handleFileUpload}
+              disabled={!isDataLoaded} // Disable if data is not loaded
             />
           </div>
         </div>
           <MessageList messages={messages} />
           <div ref={(el) => { this.messagesEnd = el; }} />
-        <ChatInput onSendMessage={this.handleSendMessage} />
+        <ChatInput onSendMessage={this.handleSendMessage} disabled={!isDataLoaded} /> {/* Disable ChatInput if data is not loaded */}
         <div ref={(el) => { this.messagesEnd = el; }} />
       </div>
     );
