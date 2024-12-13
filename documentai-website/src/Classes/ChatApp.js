@@ -148,7 +148,12 @@ class ChatApp extends Component {
   };
 
   clearMessages = () => {
-    this.setState({ messages: [{ sender: 'System', text: Math.floor(100000 + Math.random() * 900000).toString() }] }); // Reset chat ID
+    const { messages } = this.state;
+    const currentChatID = messages[0].text;
+    const match = currentChatID.match(/-(\d+)$/);
+    const suffix = match ? parseInt(match[1], 10) + 1 : 1;
+    const newChatID = `${currentChatID.replace(/-\d+$/, '')}-${suffix}`;
+    this.setState({ messages: [{ sender: 'System', text: newChatID }] }); // Reset chat ID with suffix
   };
 
   render() {
