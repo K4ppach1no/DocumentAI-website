@@ -10,7 +10,7 @@ class ChatApp extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      messages: [],
+      messages: [{ sender: 'System', text: Math.floor(100000 + Math.random() * 900000).toString() }], // Add chat ID as the first message
       models: [],
       selectedModel: '',
       files: [],
@@ -147,15 +147,22 @@ class ChatApp extends Component {
     }));
   };
 
+  clearMessages = () => {
+    this.setState({ messages: [{ sender: 'System', text: Math.floor(100000 + Math.random() * 900000).toString() }] }); // Reset chat ID
+  };
+
   render() {
     const { models, selectedModel, messages, files, selectedFile, collections, selectedCollection, dropdownOpen } = this.state;
     const isDataLoaded = models.length > 0; // Check if models are loaded
+    const chatID = messages[0]?.text; // Get the chat ID
+    const filteredMessages = messages.filter(message => message.sender !== 'System'); // Filter out 'System' messages
 
     return (
       <div className="ChatApp">
         <header className="App-header">
           <div className="navbar">
             <h1>Document AI</h1>
+            <button className="clear-chat-button" onClick={this.clearMessages}>Clear Chat</button> {/* Add Clear Chat button */}
             <div className="dropdown">
               <button className="dropbtn" onClick={this.toggleDropdown}>Manage</button>
               {dropdownOpen && (
@@ -165,6 +172,7 @@ class ChatApp extends Component {
                 </div>
               )}
             </div>
+            <div className="chat-id">Chat ID: {chatID}</div> {/* Display Chat ID */}
           </div>
         </header>
         <div className='option-container'>
@@ -223,7 +231,7 @@ class ChatApp extends Component {
             />
           </div>
         </div>
-          <MessageList messages={messages} />
+          <MessageList messages={filteredMessages} /> {/* Use filteredMessages instead of messages */}
           <div ref={(el) => { this.messagesEnd = el; }} />
         <ChatInput onSendMessage={this.handleSendMessage} disabled={!isDataLoaded} /> {/* Disable ChatInput if data is not loaded */}
         <div ref={(el) => { this.messagesEnd = el; }} />
