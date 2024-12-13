@@ -21,7 +21,7 @@ class ChatApp extends Component {
     };
 
     // Instantiate the API client with your Open-webUI API key
-    this.apiClient = new OpenWebUIApi("eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjI0YTBhZjIyLTIwOGMtNGNkMC1iNzkyLWEyZjRhYzg4MzhkOCJ9.NTW3wveB3kuSdSEntaXo7cRprG5E8SMkH7kDJk4WIqw");
+    this.apiClient = new OpenWebUIApi("eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjQyOGUwMzFjLWQ0NzUtNGE2OS1hY2E0LTBkZWI1OTRiNzI1NSJ9.nkXGduhq9ODyo31dPLKneDgX0BAUctuexoHk84VWxP8");
   }
 
   async componentDidMount() {
